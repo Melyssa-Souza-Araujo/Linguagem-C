@@ -1,72 +1,78 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include <stdlib.h>
 
-char palavrasecreta[20];
-char chutes[26];
-int tentativas = 0;
+#define MAX_TENTATIVAS 10
 
-void abertura() {
-    printf("/****************/\n");
-    printf("/ Jogo de Forca */\n");
-    printf("/****************/\n\n");
-}
-
-void chuta() {
-    char chute;
-    printf("Qual letra? ");
-    scanf(" %c", &chute);
-
-    chutes[tentativas] = chute;
-}
-
-int jachutou(char letra) {
-    int achou = 0;
-    for(int j = 0; j < tentativas; j++) {
-        if(chutes[j] == letra) {
-            achou = 1;
-            break;
-        }
-    }
-
-    return achou;
-}
-
-void desenhaforca() {
-
-    printf("Você já deu %d chutes\n", tentativas);
-
-    for(int i = 0; i < strlen(palavrasecreta); i++) {
-
-        if(jachutou(palavrasecreta[i])) {
-            printf("%c ", palavrasecreta[i]);
-        } else {
-            printf("_ ");
-        }
-
-    }
-    printf("\n");
-
-}
-
-void escolhepalavra() {
-    sprintf(palavrasecreta, "sniff");
-}
-//Alguém , poderia, por favor, me explicar, passo a passo o que está acontecendo neste script? Porque o meu ficou bem diferente, porém, com os mesmos resultados.
 int main() {
-
+    char palavras[][20] = {
+        "nostalgia", 
+        "labirinto", 
+        "luminescente", 
+        "efemero", 
+        "ebulicao", 
+        "onomatopeia",
+        "eufemismo",
+        "animal",
+        "boca",
+        "cabide",
+        "trompete",
+        "tartaruga",
+        "vermelho",
+        "cadeira",
+        "caminho"
+    };
+    int num_palavras = sizeof(palavras) / sizeof(palavras[0]);
+    char palavra_secreta[20];
+    char chute;
     int acertou = 0;
-    int enforcou = 0;
+    int erros = 0;
 
-    abertura();
-    escolhepalavra();
+    // Semente para números aleatórios
+    srand(time(NULL));
 
-    do {
+    // Escolhe uma palavra aleatória
+    int indice_palavra = rand() % num_palavras;
+    strcpy(palavra_secreta, palavras[indice_palavra]);
 
-        desenhaforca();
-        chuta();
+    // Inicializa o vetor de chutes com traços
+    char chutes[20];
+    for (int i = 0; palavra_secreta[i] != '\0'; i++) {
+        chutes[i] = '_';
+    }
 
-        tentativas++;
+    // Loop do jogo
+    while (erros < MAX_TENTATIVAS && acertou < strlen(palavra_secreta)) {
+        printf("Palavra: ");
+        for (int i = 0; palavra_secreta[i] != '\0'; i++) {
+            printf("%c ", chutes[i]);
+        }
+        printf("\n");
 
-    } while (!acertou && !enforcou);
+        printf("Digite uma letra: ");
+        scanf(" %c", &chute);
 
+        int achou = 0;
+        for (int i = 0; palavra_secreta[i] != '\0'; i++) {
+            if (palavra_secreta[i] == chute) {
+                chutes[i] = chute;
+                achou = 1;
+                acertou++;
+            }
+        }
+
+        if (!achou) {
+            erros++;
+            printf("Errou!\n");
+        }
+    }
+
+    if (acertou == strlen(palavra_secreta)) {
+        printf("Parabéns, você venceu!\nA palavra era: %s\n", palavra_secreta);
+    } else {
+        printf("Você perdeu! A palavra era: %s\n", palavra_secreta);
+    }
+
+    return 0;
 }
