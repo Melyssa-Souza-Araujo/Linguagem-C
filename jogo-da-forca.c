@@ -82,7 +82,15 @@ int main() {
         "tigre",
         "leao",
         "zebra",
-        "vitalidade"
+        "vitalidade",
+        "Sniff, o Ratinho",
+        "ar",
+        "terra",
+        "fogo",
+        "agua",
+        "Sokka, nelas",
+        "celta"
+        
     };
     int num_palavras = sizeof(palavras) / sizeof(palavras[0]);
     char palavra_secreta[20];
