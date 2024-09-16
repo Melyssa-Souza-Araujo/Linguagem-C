@@ -561,6 +561,114 @@ const char *palavras_validas[MAX_CATEGORIAS][MAX_PALAVRAS] = {
         "ZIMBÁBUE",
         "NOVA ZELÂNDIA"
     }
+    //Carros
+    {
+        "ALFA ROMEO",
+        "AUDI",
+        "BMW",
+        "CHAMONIX",
+        "CHERY",
+        "CIELO",
+        "CHEVROLET",
+        "CAMARO",
+        "CELTA",
+        "CORSA",
+        "CORSA SEDAN",
+        "CORSA PICK UP",
+        "CHEVY",
+        "ONIX",
+        "OPALA",
+        "OPALA COUPÉ",
+        "AIRCROSS",
+        "FIAT",
+        "ARGO",
+        "CITY",
+        "MOBI",
+        "PALIO",
+        "UNO",
+        "FORD",
+        "FIESTA",
+        "ECOSPORT",
+        "JEEP",
+        "MUSTANG",
+        "HONDA",
+        "CIVIC",
+        "FIT",
+        "HYUNDAI",
+        "HB20",
+        "HB20S",
+        "HB20X",
+        "HYUNDAI ATOS",
+        "VOGUE",
+        "MERCEDES",
+        "MINI COOPER",
+        "TESLA",
+        "MITSUBISHI",
+        "NISSAN",
+        "VERSA",
+        "PEUGEOT",
+        "RENAUT",
+        "CLIO",
+        "CLIO SEDAN",
+        "KWID",
+        "LOGAN",
+        "SANDERO",
+        "SUZUKI",
+        "TOYOTA",
+        "HILUX",
+        "VOLVO",
+        "VOLKSWAGEN",
+        "GOL",
+        "FOX",
+        "FUSCA",
+        "KOMBI",
+        "SUV",
+        "GOLF",
+        "POLO",
+        "POLO SEDAN",
+        "POLO CLASSIC",
+        "FERRARI",
+        "PORCHE"
+    }
+    //Times
+    {
+        "VASCO",
+        "CRUZEIRO",
+        "SÃO PAULO",
+        "FLAMENGO",
+        "SANTOS",
+        "CORINTHIANS",
+        "YPIRANGA",
+        "AMAZONAS",
+        "BAHIA",
+        "VITÓRIA",
+        "ATLÉTICO MINEIRO",
+        "ATLÉICO",
+        "ATLÉTICO PARANAENSE",
+        "FLUMINENSE",
+        "CEARÁ",
+        "FORTALEZA",
+        "BOTAFOGO",
+        "GOIÁS",
+        "GRÊMIO",
+        "CHAPECOENSE",
+        "AMÉRICA",
+        "CUIABÁ",
+        "JUVENTUDE",
+        "BRAGANTINO",
+        "PAYSANDU",
+        "BARCELONA",
+        "REAL MADRID",
+        "MIRASSOL",
+        "PALMEIRAS",
+        "CORITIBA",
+        "ATLÉTICO-PR",
+        "ATLÉTICO-MG",
+        "MANCHESTER CITY",
+        "LIVERPOOL",
+        "CHELSEA",
+        "MILAN"
+    }
 };
 
 int total_palavras_validas[MAX_CATEGORIAS] = {
@@ -569,7 +677,9 @@ int total_palavras_validas[MAX_CATEGORIAS] = {
     200,  // Cores
     200,  // Objetos
     200,  // Profissões
-    200   // Países
+    200,  // Países
+    200,  // Carros
+    200   // Times
 };
 
 void limparBuffer() {
@@ -664,7 +774,7 @@ void jogarStop() {
             }
             
             for (j = 0; j < MAX_JOGADORES; j++) {
-                pontos[j] += calcularPontos(palavras, num_categorias);
+                pontos[j] += calcularPontos(palGEavras, num_categorias);
             }
         }
 
