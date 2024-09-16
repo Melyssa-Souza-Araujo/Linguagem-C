@@ -225,8 +225,8 @@ const char *palavras_validas[MAX_CATEGORIAS][MAX_PALAVRAS] = {
         "AMARELO", 
         "ROSA",
         "PRETO", 
-        "BRANCO", "
-        CINZA", 
+        "BRANCO", 
+        "CINZA", 
         "ROXO", 
         "LARANJA",
         "BEGE", 
