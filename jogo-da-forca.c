@@ -81,7 +81,8 @@ int main() {
         "gato",
         "tigre",
         "leao",
-        "zebra"
+        "zebra",
+        "vitalidade"
     };
     int num_palavras = sizeof(palavras) / sizeof(palavras[0]);
     char palavra_secreta[20];
