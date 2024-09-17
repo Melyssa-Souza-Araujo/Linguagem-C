@@ -713,7 +713,8 @@ const char *palavras_validas[MAX_CATEGORIAS][MAX_PALAVRAS] = {
         "MANCHESTER CITY",
         "LIVERPOOL",
         "CHELSEA",
-        "MILAN"
+        "MILAN",
+        "WEST HAM UNITED"
     }
 };
 
