@@ -484,7 +484,7 @@ const char *palavras_validas[MAX_CATEGORIAS][MAX_PALAVRAS] = {
 "Butão",
 "Mianmar",
 "Camboja",
-"Nepal',
+"Nepal",
 "China",
 "Paquistão",
 "Índia",
@@ -673,7 +673,8 @@ const char *palavras_validas[MAX_CATEGORIAS][MAX_PALAVRAS] = {
         "POLO CLASSIC",
         "FERRARI",
         "PORCHE",
-        "DODGE"
+        "DODGE",
+            "LAMBORGHINI"
     }
     //Times
     {
