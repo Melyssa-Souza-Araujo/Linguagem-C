@@ -628,7 +628,8 @@ const char *palavras_validas[MAX_CATEGORIAS][MAX_PALAVRAS] = {
         "POLO SEDAN",
         "POLO CLASSIC",
         "FERRARI",
-        "PORCHE"
+        "PORCHE",
+        "DODGE"
     }
     //Times
     {
