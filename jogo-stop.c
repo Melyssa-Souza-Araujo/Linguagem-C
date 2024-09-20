@@ -720,14 +720,14 @@ const char *palavras_validas[MAX_CATEGORIAS][MAX_PALAVRAS] = {
 };
 
 int total_palavras_validas[MAX_CATEGORIAS] = {
-    250,  // Frutas
-    250,  // Animais
-    250,  // Cores
-    250,  // Objetos
-    250,  // Profissões
-    250,  // Países
-    250,  // Carros
-    250   // Times
+    100,  // Frutas
+    100,  // Animais
+    100,  // Cores
+    100,  // Objetos
+    100,  // Profissões
+    100,  // Países
+    100,  // Carros
+    100   // Times
 };
 
 void limparBuffer() {
@@ -822,7 +822,7 @@ void jogarStop() {
             }
             
             for (j = 0; j < MAX_JOGADORES; j++) {
-                pontos[j] += calcularPontos(palGEavras, num_categorias);
+                pontos[j] += calcularPontos(palavras, num_categorias);
             }
         }
 
