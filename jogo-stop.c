@@ -720,14 +720,14 @@ const char *palavras_validas[MAX_CATEGORIAS][MAX_PALAVRAS] = {
 };
 
 int total_palavras_validas[MAX_CATEGORIAS] = {
-    100,  // Frutas
-    100,  // Animais
-    100,  // Cores
-    100,  // Objetos
-    100,  // Profissões
-    100,  // Países
-    100,  // Carros
-    100   // Times
+    250,  // Frutas
+    250,  // Animais
+    250,  // Cores
+    250,  // Objetos
+    250,  // Profissões
+    250,  // Países
+    250,  // Carros
+    250   // Times
 };
 
 void limparBuffer() {
