@@ -605,7 +605,7 @@ const char *palavras_validas[MAX_CATEGORIAS][MAX_PALAVRAS] = {
         "Siria",
         "Tunísia",
         "Ucrânia"
-    }
+    },
     //Carros
     {
         "ALFA ROMEO",
@@ -676,7 +676,7 @@ const char *palavras_validas[MAX_CATEGORIAS][MAX_PALAVRAS] = {
         "PORCHE",
         "DODGE",
         "LAMBORGHINI"
-    }
+    },
     //Times
     {
         "VASCO",
