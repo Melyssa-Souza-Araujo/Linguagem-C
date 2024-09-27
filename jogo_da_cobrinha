@@ -1,117 +1,171 @@
-//site para usar esse código: https://www.onlinegdb.com/online_c_compiler
+//https://www.onlinegdb.com/online_c_compiler
 #include <stdio.h>
 #include <stdlib.h>
+#include <ncurses.h>
+#include <unistd.h>
 #include <time.h>
-#include <unistd.h> // Para usleep
 
-#define WIDTH 10
-#define HEIGHT 10
+#define WIDTH 30
+#define HEIGHT 15
 
-int x, y, fruitX, fruitY, score;
-int tailX[100], tailY[100];
-int nTail;
-enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
-enum eDirection dir;
+typedef struct Snake {
+    int x[100], y[100];
+    int length;
+    char direction;
+} Snake;
 
-void Setup() {
-    dir = STOP;
-    x = WIDTH / 2;
-    y = HEIGHT / 2;
-    fruitX = rand() % WIDTH;
-    fruitY = rand() % HEIGHT;
-    score = 0;
-    nTail = 0;
+typedef struct Food {
+    int x, y;
+} Food;
+
+void initialize(Snake *snake, Food *food) {
+    snake->length = 1;
+    snake->x[0] = WIDTH / 2;
+    snake->y[0] = HEIGHT / 2;
+    snake->direction = 'R';
+
+    food->x = rand() % WIDTH;
+    food->y = rand() % HEIGHT;
 }
 
-void Draw() {
-    system("clear"); // Use "cls" para Windows
-    for (int i = 0; i < WIDTH + 2; i++) printf("#");
-    printf("\n");
+void draw(Snake *snake, Food *food) {
+    clear();
 
-    for (int i = 0; i < HEIGHT; i++) {
-        for (int j = 0; j < WIDTH; j++) {
-            if (j == 0) printf("#");
-            if (i == y && j == x) printf("O");
-            else if (i == fruitY && j == fruitX) printf("*");
-            else {
-                int isTail = 0;
-                for (int k = 0; k < nTail; k++) {
-                    if (tailX[k] == j && tailY[k] == i) {
-                        printf("o");
-                        isTail = 1;
-                    }
-                }
-                if (!isTail) printf(" ");
-            }
-            if (j == WIDTH - 1) printf("#");
+    // Desenhar limites
+    for (int i = 0; i <= WIDTH + 1; i++) {
+        mvprintw(0, i, "#");          // Topo
+        mvprintw(HEIGHT + 1, i, "#"); // Fundo
+    }
+    for (int i = 0; i <= HEIGHT + 1; i++) {
+        mvprintw(i, 0, "#");          // Esquerda
+        mvprintw(i, WIDTH + 1, "#");  // Direita
+    }
+
+    mvprintw(food->y + 1, food->x + 1, "*");  // Símbolo para comida
+
+    for (int i = 0; i < snake->length; i++) {
+        if (i == 0) {
+            mvprintw(snake->y[i] + 1, snake->x[i] + 1, "D"); // Cabeça
+        } else {
+            mvprintw(snake->y[i] + 1, snake->x[i] + 1, "o"); // Corpo
         }
-        printf("\n");
     }
 
-    for (int i = 0; i < WIDTH + 2; i++) printf("#");
-    printf("\nScore: %d\n", score);
+    refresh();
 }
 
-void Input() {
-    char c;
-    system("stty raw"); // Habilita o modo raw
-    c = getchar();
-    system("stty cooked"); // Retorna ao modo normal
+void move_snake(Snake *snake) {
+    for (int i = snake->length - 1; i > 0; i--) {
+        snake->x[i] = snake->x[i - 1];
+        snake->y[i] = snake->y[i - 1];
+    }
 
-    switch (c) {
-        case 'a': dir = LEFT; break;
-        case 'd': dir = RIGHT; break;
-        case 'w': dir = UP; break;
-        case 's': dir = DOWN; break;
-        case 'x': exit(0);
+    switch (snake->direction) {
+        case 'U': snake->y[0]--; break;
+        case 'D': snake->y[0]++; break;
+        case 'L': snake->x[0]--; break;
+        case 'R': snake->x[0]++; break;
     }
 }
 
-void Logic() {
-    int prevX = tailX[0];
-    int prevY = tailY[0];
-    tailX[0] = x;
-    tailY[0] = y;
-
-    for (int i = 1; i < nTail; i++) {
-        int tempX = tailX[i];
-        int tempY = tailY[i];
-        tailX[i] = prevX;
-        tailY[i] = prevY;
-        prevX = tempX;
-        prevY = tempY;
+int check_collision(Snake *snake) {
+    if (snake->x[0] < 0 || snake->x[0] >= WIDTH || 
+        snake->y[0] < 0 || snake->y[0] >= HEIGHT) {
+        return 1;
     }
 
-    switch (dir) {
-        case LEFT: x--; break;
-        case RIGHT: x++; break;
-        case UP: y--; break;
-        case DOWN: y++; break;
+    for (int i = 1; i < snake->length; i++) {
+        if (snake->x[i] == snake->x[0] && snake->y[i] == snake->y[0]) {
+            return 1;
+        }
     }
 
-    if (x >= WIDTH) x = 0; else if (x < 0) x = WIDTH - 1;
-    if (y >= HEIGHT) y = 0; else if (y < 0) y = HEIGHT - 1;
+    return 0;
+}
 
-    for (int i = 0; i < nTail; i++) {
-        if (tailX[i] == x && tailY[i] == y) exit(0); // Game over
+void check_food(Snake *snake, Food *food) {
+    if (snake->x[0] == food->x && snake->y[0] == food->y) {
+        snake->length++;
+        food->x = rand() % WIDTH;
+        food->y = rand() % HEIGHT;
     }
+}
 
-    if (x == fruitX && y == fruitY) {
-        score += 10;
-        fruitX = rand() % WIDTH;
-        fruitY = rand() % HEIGHT;
-        nTail++;
+void explode_animation() {
+    const char *frames[] = {
+        "   *   ",
+        "  * *  ",
+        " * *** *",
+        "SE FUDEU :C",
+        " * *** *",
+        "  * *  ",
+        "   *   "
+    };
+
+    for (int i = 0; i < 7; i++) {
+        clear();
+        for (int j = 0; j < 7; j++) {
+            mvprintw(HEIGHT / 2 - 3 + j, (WIDTH / 2) - 4, "%s", frames[j]);
+        }
+        refresh();
+        usleep(100000);  // Atraso para a animação
     }
+}
+
+void game_over(int score) {
+    clear();
+    mvprintw(HEIGHT / 2, (WIDTH / 2) - 7, "Game Over! Your score: %d", score);
+    mvprintw(HEIGHT / 2 + 1, (WIDTH / 2) - 10, "Press 'r' to restart or 'q' to quit.");
+    refresh();
 }
 
 int main() {
-    srand(time(0));
-    Setup();
+    Snake snake;
+    Food food;
+    int ch;
+
+    srand(time(NULL));
+    initscr();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+    timeout(150);  // Delay para controlar a velocidade
+
     while (1) {
-        Draw();
-        Input();
-        Logic();
-        usleep(100000); // Pausa para controle de velocidade
+        initialize(&snake, &food);
+        while (1) {
+            draw(&snake, &food);
+            ch = getch();
+
+            switch (ch) {
+                case KEY_UP: snake.direction = 'U'; break;
+                case KEY_DOWN: snake.direction = 'D'; break;
+                case KEY_LEFT: snake.direction = 'L'; break;
+                case KEY_RIGHT: snake.direction = 'R'; break;
+            }
+
+            move_snake(&snake);
+            check_food(&snake, &food);
+
+            if (check_collision(&snake)) {
+                break;  // Termina o jogo se houver colisão
+            }
+        }
+
+        explode_animation();  // Animação de explosão
+        game_over(snake.length);  // Exibe a tela de Game Over
+
+        while (1) {
+            ch = getch();
+            if (ch == 'r') break;  // Reiniciar o jogo
+            if (ch == 'q') {
+                endwin();  // Finaliza o modo ncurses
+                printf("Saindo do jogo. Até logo!\n");
+                return 0; // Sair do jogo
+            }
+        }
     }
+
+    endwin();
     return 0;
 }
