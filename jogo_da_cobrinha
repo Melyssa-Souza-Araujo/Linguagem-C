@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <time.h>
+#include <unistd.h> // Para usleep
 
 #define WIDTH 10
 #define HEIGHT 10
@@ -23,7 +23,7 @@ void Setup() {
 }
 
 void Draw() {
-    system("cls");
+    system("clear"); // Use "cls" para Windows
     for (int i = 0; i < WIDTH + 2; i++) printf("#");
     printf("\n");
 
@@ -52,14 +52,17 @@ void Draw() {
 }
 
 void Input() {
-    if (_kbhit()) {
-        switch (_getch()) {
-            case 'a': dir = LEFT; break;
-            case 'd': dir = RIGHT; break;
-            case 'w': dir = UP; break;
-            case 's': dir = DOWN; break;
-            case 'x': exit(0);
-        }
+    char c;
+    system("stty raw"); // Habilita o modo raw
+    c = getchar();
+    system("stty cooked"); // Retorna ao modo normal
+
+    switch (c) {
+        case 'a': dir = LEFT; break;
+        case 'd': dir = RIGHT; break;
+        case 'w': dir = UP; break;
+        case 's': dir = DOWN; break;
+        case 'x': exit(0);
     }
 }
 
@@ -107,6 +110,7 @@ int main() {
         Draw();
         Input();
         Logic();
+        usleep(100000); // Pausa para controle de velocidade
     }
     return 0;
 }
