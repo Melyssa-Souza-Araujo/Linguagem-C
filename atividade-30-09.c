@@ -164,3 +164,48 @@ int main() {
 
     return 0;
 }
+
+//questão 5
+
+#include <stdio.h>
+
+struct Endereco {
+    char rua[100];
+    int numero;
+    char cidade[50];
+};
+
+struct Pessoa {
+    char nome[50];
+    int idade;
+    struct Endereco endereco;  // Estrutura aninhada
+};
+
+void ler_pessoa(struct Pessoa *p) {
+    printf("Digite o nome: ");
+    scanf(" %[^\n]", p->nome);
+    printf("Digite a idade: ");
+    scanf("%d", &p->idade);
+    printf("Digite a rua: ");
+    scanf(" %[^\n]", p->endereco.rua);
+    printf("Digite o número: ");
+    scanf("%d", &p->endereco.numero);
+    printf("Digite a cidade: ");
+    scanf(" %[^\n]", p->endereco.cidade);
+}
+
+void mostrar_pessoa(const struct Pessoa *p) {
+    printf("\n--- Dados da Pessoa ---\n");
+    printf("Nome: %s\n", p->nome);
+    printf("Idade: %d\n", p->idade);
+    printf("Endereço: %s, %d, %s\n", p->endereco.rua, p->endereco.numero, p->endereco.cidade);
+}
+
+int main() {
+    struct Pessoa pessoa;
+
+    ler_pessoa(&pessoa);
+    mostrar_pessoa(&pessoa);
+
+    return 0;
+}
