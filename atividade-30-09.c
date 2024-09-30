@@ -129,3 +129,38 @@ int main() {
 
     return 0;
 }
+
+//questão 4
+
+#include <stdio.h>
+
+struct Pessoa {
+    char nome[50];
+    int idade;
+    char email[50];
+};
+
+void ler_pessoa(struct Pessoa *p) {
+    printf("Digite o nome: ");
+    scanf(" %[^\n]", p->nome);
+    printf("Digite a idade: ");
+    scanf("%d", &p->idade);
+    printf("Digite o email: ");
+    scanf(" %[^\n]", p->email);
+}
+
+void mostrar_pessoa(const struct Pessoa *p) {
+    printf("\n--- Dados da Pessoa ---\n");
+    printf("Nome: %s\n", p->nome);
+    printf("Idade: %d\n", p->idade);
+    printf("Email: %s\n", p->email);
+}
+
+int main() {
+    struct Pessoa pessoa;
+
+    ler_pessoa(&pessoa);
+    mostrar_pessoa(&pessoa);
+
+    return 0;
+}
