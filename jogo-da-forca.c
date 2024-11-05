@@ -83,12 +83,10 @@ int main() {
         "leao",
         "zebra",
         "vitalidade",
-        "Sniff, o Ratinho",
         "ar",
         "terra",
         "fogo",
         "agua",
-        "Sokka, nelas",
         "celta"
         
     };
